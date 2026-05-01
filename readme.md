@@ -3,6 +3,10 @@
 This repo is the replication package for "Dynamic Control-Flow Tracing Using LibPatch: A Software-Based Adaptive Approach" paper.
 
 - [Installation](https://github.com/alient12/wyvern_evaluation#installation)
+  * [SPEC CPU 2017 Benchmark Suite](https://github.com/alient12/wyvern_evaluation#spec-cpu-2017-benchmark-suite)
+  * [magic-trace](https://github.com/alient12/wyvern_evaluation#magic-trace)
+  * [Valgrind CFGgrind](https://github.com/alient12/wyvern_evaluation#valgrind-cfggrind)
+  * [Wyvern](https://github.com/alient12/wyvern_evaluation#wyvern)
 - [Ranking Benchmark Programs By Cyclomatic Complexity Decsity (Optional)](https://github.com/alient12/wyvern_evaluation#ranking-benchmark-programs-by-cyclomatic-complexity-decsity-optional)
 - [Running All Tracers on Benchmark Programs](https://github.com/alient12/wyvern_evaluation#running-all-tracers-on-benchmark-programs)
 
@@ -29,7 +33,7 @@ Follow [magic-trace official repo](https://github.com/janestreet/magic-trace) to
 
 Follow [CFGgrind repo](https://github.com/rimsa/CFGgrind) to build valgrind with CFGgrind plugin.
 
-### Building Wyvern
+### Wyvern
 #### Installing Requirements
 You should have the following libraries installed:
 capstone, libpatch, yaml, libdawrf, cjson, llttng-ust
@@ -139,7 +143,7 @@ sudo make install &&
 sudo ldconfig
 ```
 
-#### Build
+#### Building Wyvern
 
 Clone Wyvern's repo:
 
