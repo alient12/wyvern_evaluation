@@ -151,32 +151,74 @@ gcc -shared -fPIC -pthread arg-recorder.c lttng_tp.c trigger_check.c trigger_com
 ```
 After compilation, copy `libdwscan.so`, `cft-auto-data-test.so` and `arg-recorder.so` and place them at `wyvern_evaluation/function_complexity_ranking/`.
 
-## how to find the hot path
+## Ranking Benchmark Programs By Cyclomatic Complexity Decsity (Optional)
 
-### run each program
+In this step, we compute cyclomatic complexity of each benchmark program by using [SCC](https://github.com/boyter/scc) on their source code directory. Then, we rank them by cyclomatic comlexity density by the mean of `rank.py`. Follow [SCC](https://github.com/boyter/scc#install) for installation.
 
-```bash
-# sudo -E $(which runcpu) --config=wyvern.cfg --size=test --command="perf record -g" 527.cam4_r
-# sudo -E $(which runcpu) --config=wyvern.cfg --size=test 538.imagick_r
 ```
-
-```bash
-sudo perf record -g /usr/cpu2017/benchspec/CPU/538.imagick_r/run/run_base_test_wyvern-m64.0000/imagick_r_base.wyvern-m64
-sudo chown -R $(whoami) perf.data
-perf report --stdio > report.txt
+cd program_complexity_ranking
+./check_complexity.sh
+python3 rank.py
 ```
+After runnning this, it generates `ranking_complexity_density.csv` and `ranking_total_complexity.csv` files.
 
-# ALSO YOU MAY WANT TO ADD `-g -O0` TO CONFIG FLAGS
+## Running All Tracers on Benchmark Programs
 
+You need to install `radare2` and `r2pipe` for the automatic trigger config generation pipeline.
 ```bash
-LD_PRELOAD=record_args.so /usr/cpu2017/benchspec/CPU/538.imagick_r/run/run_base_test_wyvern-m64.0000/imagick_r_base.wyvern-m64
-/usr/cpu2017/benchspec/CPU/538.imagick_r/run/run_base_test_wyvern-m64.0000/imagick_r_base.wyvern-m64 -limit disk 0 test_input.tga -shear 25 -resize 640x480 -negate -alpha Off test_output.tga > test_convert.out 2>> test_convert.err
-```
-
-# Function complexity
-
-install radare2
-```bash
+# Fedora/RHEL
 sudo dnf install radare2
+# Ubuntu
+sudo apt install radare2
 pip3 install r2pipe
+```
+Then for running any benchmark program, you just need to copy the input files from data folder in SPEC CPU 2017 and place it in the corresponding folder.
+For example, for running `538.imagick_r` you have to copy the inputs from `/usr/cpu2017/benchspec/CPU/538.imagick_r/data/test` to `wyvern_evaluation/function_complexity_ranking/538.imagick_r/` and then run `./run.sh`.
+You can check `dir_tree.txt` to ensure how which files and where you have to copy them.
+
+You can edit `run.sh` file.
+
+```bash
+# === Config ===
+BIN="/usr/cpu2017/benchspec/CPU/538.imagick_r/exe/imagick_r_base.wyvern-m64"
+INPUT=(
+    -limit disk 0
+    input/test_input.tga
+    -shear 25
+    -resize 640x480
+    -negate
+    -alpha Off
+    test_output.tga
+)
+CPU=7
+RUNS=5
+GENERATE_CONFIGS=true
+
+OUT_DIR="logs"
+TIME_LOG="timings.txt"
+
+NORMAL_CFG="config.yaml"
+RELAXED_CFG="config-relaxed.yaml"
+STRESS_CFG="config-stress.yaml"
+```
+
+`BIN` is the path to benchmark program.
+`INPUT` is the arguments that are passed to the benchmark program.
+`CPU` is the CPU core that you have isolated and you want to run the tests on it.
+`RUNS` is how many times you want to repeat the test.
+`GENERATE_CONFIGS` if it's false, it assumes that config files already exist and directly runs the tests without running arg-recorder and python scripts.
+
+After running, these files will be generated:
+```
+RQ1: Control-Flow Coverage
+probe_success_rates.txt
+
+RQ2: Effectiveness of Trigger-Based Activation
+logs/wyvern_relaxed_run.out
+logs/wyvern_normal_run.out
+logs/wyvern_stress_run.out
+(End of each file shows how many times each probe invoked)
+
+RQ3: Performance Overhead
+timings.txt
 ```
