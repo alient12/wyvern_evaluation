@@ -132,7 +132,7 @@ sudo make install &&
 sudo ldconfig
 ```
 
-for LTTng tools:
+for LTTng tools: (Optional)
 ```bash
 wget https://lttng.org/files/lttng-tools/lttng-tools-latest-2.15.tar.bz2 &&
 tar -xf lttng-tools-latest-2.15.tar.bz2 &&
@@ -141,6 +141,16 @@ cd lttng-tools-2.15.* &&
 make &&
 sudo make install &&
 sudo ldconfig
+```
+
+Note: Intalling Lttng tools is optional in case you want to save the CTF traces. It doesn't effect the test pipeline in the next steps. In case you want to run Wyvern with LTTng, you have to use the following command to run LTTng daemon:
+
+```bash
+sudo lttng destroy wyvern-session 2>/dev/null || true
+sudo lttng create wyvern-session --output=/tmp/wyvern-ust-trace --trace-format=ctf-1.8
+sudo lttng enable-channel -u uchan --num-subbuf=4 --subbuf-size=8M
+sudo lttng enable-event --session=wyvern-session-ust -u --channel=uchan wyvern:probe2
+sudo lttng start
 ```
 
 #### Building Wyvern
