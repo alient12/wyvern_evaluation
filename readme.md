@@ -2,9 +2,9 @@
 
 This repo is the replication package for "Dynamic Control-Flow Tracing Using LibPatch: A Software-Based Adaptive Approach" paper.
 
-- [Installation](https://github.com/alient12/wyvern_evaluation/readme.md#installation)
-- [Ranking Benchmark Programs By Cyclomatic Complexity Decsity (Optional)](https://github.com/alient12/wyvern_evaluation/readme.md#ranking-benchmark-programs-by-cyclomatic-complexity-decsity-optional)
-- [Running All Tracers on Benchmark Programs](https://github.com/alient12/wyvern_evaluation/readme.md#running-all-tracers-on-benchmark-programs)
+- [Installation](https://github.com/alient12/wyvern_evaluation#installation)
+- [Ranking Benchmark Programs By Cyclomatic Complexity Decsity (Optional)](https://github.com/alient12/wyvern_evaluation#ranking-benchmark-programs-by-cyclomatic-complexity-decsity-optional)
+- [Running All Tracers on Benchmark Programs](https://github.com/alient12/wyvern_evaluation#running-all-tracers-on-benchmark-programs)
 
 ## Installation
 In order to replicate this paper, you need SPEC CPU 2017 Benchmark Suite, Wyvern, magic trace and Valgrind CFGgrind
