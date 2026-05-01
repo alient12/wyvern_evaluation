@@ -2,6 +2,10 @@
 
 This repo is the replication package for "Dynamic Control-Flow Tracing Using LibPatch: A Software-Based Adaptive Approach" paper.
 
+- [Installation](https://github.com/alient12/wyvern_evaluation/readme.md#installation)
+- [Ranking Benchmark Programs By Cyclomatic Complexity Decsity (Optional)](https://github.com/alient12/wyvern_evaluation/readme.md#ranking-benchmark-programs-by-cyclomatic-complexity-decsity-optional)
+- [Running All Tracers on Benchmark Programs](https://github.com/alient12/wyvern_evaluation/readme.md#running-all-tracers-on-benchmark-programs)
+
 ## Installation
 In order to replicate this paper, you need SPEC CPU 2017 Benchmark Suite, Wyvern, magic trace and Valgrind CFGgrind
 
@@ -202,11 +206,11 @@ RELAXED_CFG="config-relaxed.yaml"
 STRESS_CFG="config-stress.yaml"
 ```
 
-`BIN` is the path to benchmark program.
-`INPUT` is the arguments that are passed to the benchmark program.
-`CPU` is the CPU core that you have isolated and you want to run the tests on it.
-`RUNS` is how many times you want to repeat the test.
-`GENERATE_CONFIGS` if it's false, it assumes that config files already exist and directly runs the tests without running arg-recorder and python scripts.
+- `BIN` is the path to benchmark program.
+- `INPUT` is the arguments that are passed to the benchmark program.
+- `CPU` is the CPU core that you have isolated and you want to run the tests on it.
+- `RUNS` is how many times you want to repeat the test.
+- `GENERATE_CONFIGS` if it's false, it assumes that config files already exist and directly runs the tests without running arg-recorder and python scripts.
 
 After running, these files will be generated:
 ```
